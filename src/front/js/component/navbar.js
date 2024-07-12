@@ -27,7 +27,7 @@ export const Navbar = () => {
                 <button className="btn btn-primary ms-2" onClick={handleShowLogIn}>Sign in</button>
               </li>
               <li className="nav-item">
-                <button className="btn btn-primary ms-2" onClick={handleShowSingUp}>Sing Up</button>
+                <button className="btn btn-primary ms-2" onClick={handleShowSingUp}>Sign Up</button>
               </li>
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

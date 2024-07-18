@@ -42,7 +42,7 @@ export const UserProfile = () => {
                             </a>
                             <p>review: {game.review}</p>
                             <p>rating: {game.rating}</p>
-                            <p>like: {game.like}</p>
+                            {game.like ? <p>Liked: ✅</p> : <p>Liked: ❌</p>}
                         </div>
                     );
                 })}

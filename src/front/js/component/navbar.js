@@ -37,9 +37,12 @@ export const Navbar = () => {
     <>
       <nav className="navbar navbar-expand-lg ps-4">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">LOGO</a>
+          <a className="navbar-brand" href="/">GameScout</a>
           {userInfo ?
-            <button onClick={handleLogOut} type="button" className="btn btn-primary ms-2">Log out</button>
+            <>
+              <button onClick={handleLogOut} type="button" className="btn btn-primary ms-2">Log out</button>
+              <Link to="/private" className="btn btn-primary">Private</Link>
+            </>
             :
             <>
               <button className="btn btn-primary ms-2" onClick={handleSignupModal}>Sign up</button>
@@ -48,7 +51,6 @@ export const Navbar = () => {
           }
           <Link to="/search" className="btn btn-primary">Search</Link>
           <Link to="/" className="btn btn-primary">Home</Link>
-          <Link to="/private" className="btn btn-primary">Private</Link>
         </div>
       </nav>
       {isLoginModalOpen && <LoginModal closeModal={handleLoginModal} />}

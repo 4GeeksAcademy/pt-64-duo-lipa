@@ -40,7 +40,6 @@ export const Private = () => {
         </div>
       </form>
       {/* Add a list of users */}
-      <h1>Search Results:</h1>
       <div className="row userList row- gx-4">
         {searchResults.map((user, index) => {
           return (
@@ -52,7 +51,7 @@ export const Private = () => {
         })}
       </div>
       {/* Add a list of followers and following */}
-      <h1>Your Followers:</h1>
+      {store.user.followers[0] && <h1>Your Followers:</h1>}
       <div className="row userList row- gx-4">
         {store.user.followers && store.user.followers.map((follower, index) => {
           return (
@@ -63,7 +62,7 @@ export const Private = () => {
           );
         })}
       </div>
-      <h1>Your Following:</h1>
+      {store.user.following && <h1>Users you follow:</h1>}
       <div className="row userList row- gx-4">
         {store.user.following && store.user.following.map((following, index) => {
           return (
@@ -84,7 +83,7 @@ export const Private = () => {
               </a>
               <p>review: {game.review}</p>
               <p>rating: {game.rating}</p>
-              <p>like: {game.like}</p>
+              <p>like: </p>{game.like ? <p>✅</p> : <p>❌</p>}
             </div>
           );
         })}

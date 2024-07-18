@@ -8,10 +8,9 @@ export function ReviewModal({ closeModal, game }) {
     const { store, actions } = useContext(Context);
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(0);
-    const [like, setLike] = useState(false);
 
     async function handleReview() {
-        await actions.handleReview(game.id, game.cover_id, store.user.id ,review, rating, like);
+        await actions.handleReview(review, rating);
     }
 
     return (
@@ -19,7 +18,7 @@ export function ReviewModal({ closeModal, game }) {
             <div className="modal-content">
                 <span className="close" onClick={() => closeModal()}>&times;</span>
                 <h2>I played...</h2>
-                <h1>{game.name}</h1>
+                <h1>{game}</h1>
                 <form>
                     <label htmlFor="Review">Review:</label>
                     <textarea type="text" className="form-control" placeholder="Add a review..." aria-label="Review" aria-describedby="basic-addon1"
@@ -34,8 +33,8 @@ export function ReviewModal({ closeModal, game }) {
                         <option value="5">5</option>
                     </select>
                     <label htmlFor="Like">like</label>
-                    <input type="checkbox" onChange={(e) => setLike(e.target.value)} value={like}/>
-                    <button onClick={() => handleReview(review, rating, like)} type="button">Submit</button>
+                    <input type="checkbox" id="like" name="like" value="like" />
+                    <button onClick={() => handleReview(review, rating)} type="button">Submit</button>
                 </form>
             </div>
         </div>

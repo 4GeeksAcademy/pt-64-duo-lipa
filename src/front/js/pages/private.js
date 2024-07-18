@@ -1,94 +1,63 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Context } from "../store/appContext";
+import React, { useEffect, useState } from "react";
 
 export const Private = () => {
-  const { store, actions } = useContext(Context);
-  const [searchResults, setSearchResults] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [userInfo, setUserInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    actions.handleFetchUserInfo();
+
+    const fetchUserInfo = async () => {
+      const token = sessionStorage.getItem('jwtToken');
+
+      if (!token) {
+        window.location.href = "/login";
+        return;
+      }
+
+      try {
+        const response = await fetch(process.env.BACKEND_URL + 'protected', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setUserInfo(data.user_info);
+        } else {
+          throw new Error('Failed to fetch user info');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        window.location.href = "/login";
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUserInfo();
   }, []);
 
-  console.log(store.user);
-  console.log(store.user_games);
-
-  useEffect(() => {
-    if (store.searchResults) {
-      setSearchResults(store.searchResults);
-    }
-  }, [store.searchResults]);
-
-  const handleSearch = e => {
-    e.preventDefault();
-    actions.searchUsers(searchTerm);
+  function handleLogOut() {
+    sessionStorage.setItem('jwtToken', null);
+    window.location.href = "/login";
   }
 
-  if (!store.user) {
+  if (loading) {
     return <div>Loading...</div>;
+  }
+
+  if (!userInfo) {
+    return <div>No user information available</div>;
   }
 
   return (
     <div>
-      <h1>Welcome, {store.user && store.user.username}</h1>
-      <p>Email: {store.user && store.user.email}</p>
-      {/* Add searchbar to search for other users */}
-      <form onSubmit={handleSearch}>
-        <div className="input-group mb-3">
-          <input type="text" className="form-control" placeholder="Search for users" aria-label="Search for a game" aria-describedby="button-addon2" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
-          <button className="btn btn-primary" type="submit" id="button-addon2">Search</button>
-        </div>
-      </form>
-      {/* Add a list of users */}
-      <h1>Search Results:</h1>
-      <div className="row userList row- gx-4">
-        {searchResults.map((user, index) => {
-          return (
-            <div className="card mx-auto p-2" style={{ marginRight: "18rem" }} key={user.id}>
-              <p>{user.username}</p>
-              <a className="btn btn-primary" href={`/user/${user.username}`}>profile</a>
-            </div>
-          );
-        })}
-      </div>
-      {/* Add a list of followers and following */}
-      <h1>Your Followers:</h1>
-      <div className="row userList row- gx-4">
-        {store.user.followers && store.user.followers.map((follower, index) => {
-          return (
-            <div className="card mx-auto p-2" style={{ marginRight: "18rem" }} key={follower.id}>
-              <p>{follower.username}</p>
-              <a className="btn btn-primary" href={`/user/${follower.username}`}>profile</a>
-            </div>
-          );
-        })}
-      </div>
-      <h1>Your Following:</h1>
-      <div className="row userList row- gx-4">
-        {store.user.following && store.user.following.map((following, index) => {
-          return (
-            <div className="card mx-auto p-2" style={{ marginRight: "18rem" }} key={following.id}>
-              <p>{following.username}</p>
-            </div>
-          );
-        })}
-      </div>
-      {/* Add a list of games the user has reviewed */}
-      <h1>Your Reviews:</h1>
-      <div className="row gameList row- gx-4">
-        {store.user_games && store.user_games.map((game, index) => {
-          return (
-            <div className="card mx-auto p-2" style={{ marginRight: "18rem" }} key={game.id}>
-              <a href={`/game/${game.game_id}`}>
-                <img src={`//images.igdb.com/igdb/image/upload/t_1080p/${game.cover_id}.jpg`} className="card-img-top" alt={game.name} />
-              </a>
-              <p>review: {game.review}</p>
-              <p>rating: {game.rating}</p>
-              <p>like: {game.like}</p>
-            </div>
-          );
-        })}
-      </div>
+      <h1>Welcome, {userInfo.email}</h1>
+      <p>Email: {userInfo.email}</p>
+      {/* Add more user-specific information here */}
+      <button onClick={handleLogOut} type="button" className="btn">log out</button>
     </div>
   );
 };

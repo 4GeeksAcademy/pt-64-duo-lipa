@@ -6,7 +6,7 @@ import schedule
 import time
 import requests
 from flask import Flask, request, jsonify, url_for, Blueprint, send_from_directory
-from api.models import db, Users, MyGames
+from api.models import db, Users
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -92,8 +92,7 @@ def authenticate_user():
 def protected():
     current_user_id = get_jwt_identity()
     user = Users.query.get(current_user_id)
-    user_games = MyGames.query.filter_by(user_id=current_user_id).all()
-    return jsonify(user=user.serialize(), user_games=[game.serialize() for game in user_games]), 200
+    return jsonify(user_info=user.serialize()), 200
 
 @api.route('/fetch_popular_games', methods=['GET'])
 def fetch_popular_games():
@@ -190,39 +189,3 @@ def fetch_game(game_id):
     game['screenshots'] = response4.json()
 
     return jsonify(game), 200
-
-@api.route('review', methods=['POST'])
-def review_game():
-    user_id = request.json.get('user_id')
-    game_id = request.json.get('game_id')
-    cover_id = request.json.get('cover_id')
-    rating = request.json.get('rating')
-    review = request.json.get('review')
-    liked = request.json.get('liked')
-
-    existing_review = MyGames.query.filter_by(user_id=user_id, game_id=game_id).first()
-    if existing_review:
-        existing_review.rating = rating
-        existing_review.review = review
-        existing_review.liked = liked
-        existing_review.cover_id = cover_id
-        db.session.commit()
-        return jsonify(existing_review.serialize()), 200
-    else:
-
-        new_review = MyGames(user_id=user_id, game_id=game_id, rating=rating, review=review, liked=liked, cover_id=cover_id)
-        db.session.add(new_review)
-        db.session.commit()
-    return jsonify(new_review.serialize()), 200
-
-@api.route('/search_users', methods=['POST'])
-def search_users():
-    search_term = request.json.get('searchTerm')
-    users = Users.query.filter(Users.username.ilike(f'%{search_term}%')).all()
-    return jsonify([user.serialize() for user in users]), 200
-
-@api.route('/fetch_different_user/<username>', methods=['GET'])
-def fetch_different_user(username):
-    user = Users.query.filter_by(username=username).first()
-    user_games = MyGames.query.filter_by(user_id=user.id).all()
-    return jsonify(user=user.serialize(), user_games=[game.serialize() for game in user_games]), 200

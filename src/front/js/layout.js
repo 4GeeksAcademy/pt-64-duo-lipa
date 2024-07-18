@@ -8,7 +8,6 @@ import { ProfilePage } from "./pages/profilePage";
 import { Private } from "./pages/private";
 import { GameDetails } from "./pages/gameDetails";
 import { Search } from "./pages/search";
-import { UserProfile } from "./pages/userProfile";
 
 import injectContext from "./store/appContext";
 import { Home } from "./pages/home";
@@ -38,7 +37,6 @@ const Layout = () => {
                         <Route element={<ProfilePage />} path="/profilepage" />
                         <Route element={<GameDetails />}  path="/game/:id" />
                         <Route element={<Search />} path="/search" />
-                        <Route element={<UserProfile />} path="/user/:username" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

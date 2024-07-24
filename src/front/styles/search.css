@@ -1,0 +1,9 @@
+.search {
+    /* background: wheat; */
+    height: 300px;
+    width: 1000px;
+    background-image: url(https://i.imgur.com/I6KCtAk.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 1.5%;
+}

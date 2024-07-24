@@ -11,52 +11,6 @@ export const GameList = () => {
 
 	return (
 		<div className="row justify-content-center mt-5 d-flex ">
-			<div className="searchBar ">
-				<div className="container mt-5">
-					<nav className="navbar navbar-expand-lg navbar-light bg-primary">
-						<div className="navbar-nav">
-							<div className="nav-item dropdown">
-								<a className="nav-link dropdown-toggle" href="#" id="yearDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									YEAR
-								</a>
-								<div className="dropdown-menu" aria-labelledby="yearDropdown">
-									{/* <!-- Add your dropdown items here --> */}
-								</div>
-							</div>
-							<div className="nav-item dropdown">
-								<a className="nav-link dropdown-toggle" href="#" id="ratingDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									RATING
-								</a>
-								<div className="dropdown-menu" aria-labelledby="ratingDropdown">
-									{/* <!-- Add your dropdown items here --> */}
-								</div>
-							</div>
-							<div className="nav-item dropdown">
-								<a className="nav-link dropdown-toggle" href="#" id="genreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									GENRE
-								</a>
-								<div className="dropdown-menu" aria-labelledby="genreDropdown">
-									{/* <!-- Add your dropdown items here --> */}
-								</div>
-							</div>
-							<div className="nav-item dropdown">
-								<a className="nav-link dropdown-toggle" href="#" id="popularDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									POPULAR
-								</a>
-								<div className="dropdown-menu" aria-labelledby="popularDropdown">
-									{/* <!-- Add your dropdown items here --> */}
-								</div>
-							</div>
-							<div className="search-bar ms-4">
-								<form className="d-flex" role="search">
-									<input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-									<button className="btn btn-secondary" type="submit">Search</button>
-								</form>
-							</div>
-						</div>
-					</nav>
-				</div>
-			</div>
 			<div id="carouselExampleIndicators" className="carousel slide img-fluid" data-bs-ride="true">
 				<div className="carousel-indicators">
 					<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>

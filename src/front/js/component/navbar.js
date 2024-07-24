@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { Link } from "react-router-dom";
 import { SignupModal } from "./signupModal";
 import { LoginModal } from "./loginModal";
+import logo from "../../img/logo.png"
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
@@ -41,7 +42,7 @@ export const Navbar = () => {
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-warning">
         <div className="container-fluid">
-          <Link to="/" className="navbar-brand">Logo</Link>
+          <Link to="/" className="navbar-brand"><img src="https://i.imgur.com/a6HO6pi.png" height="70px" style={{ "margin": "-10px" }} /></Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -53,7 +54,7 @@ export const Navbar = () => {
               <li className="nav-item">
                 <span className="nav-link cursor" onClick={handleLoginModal}>Log in</span>
               </li>
-              <li className="nav-item dropdown">
+              {store.token ? <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Menu
                 </a>
@@ -64,7 +65,8 @@ export const Navbar = () => {
                   <li><hr className="dropdown-divider" /></li>
                   <li><a className="dropdown-item text-danger " href="#" onClick={handleLogOut}>Log out</a></li>
                 </ul>
-              </li>
+              </li> : null}
+
 
               <li className="nav-item">
                 <Link to="/search" className="nav-link">Search</Link>

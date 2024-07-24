@@ -11,18 +11,21 @@ import eldenring from "../../img/eldenring.jpg"
 
 export const HomeLoggedOff = ({ logout }) => {
   const { store, actions } = useContext(Context);
-  const popularGameElements = [];
-
+  const [popularGameElements, setPopularGameElements] = useState()
   const [hover1, setHover1] = useState(false)
   const [hover2, setHover2] = useState(false)
   const [hover3, setHover3] = useState(false)
   const [hover4, setHover4] = useState(false)
 
   useEffect(() => {
-    actions.handleFetchPopularGames()
+    actions.handleFetchPopularGames();
+  }, [])
+
+  useEffect(() => {
+    let popularGames = [];
     for (let i = 0; i < 8; i++) {
       if (store.popularGames && store.popularGames[i]) {
-        popularGameElements.push(
+        popularGames.push(
           <div className="card mx-auto p-2" style={{ marginRight: "18rem" }} key={store.popularGames[i].id}>
             <a href={`/game/${store.popularGames[i].id}`}>
               <img src={`//images.igdb.com/igdb/image/upload/t_cover_big/${store.popularGames[i].image_id}.jpg`} className="card-img-top" alt={store.popularGames[i].name} />
@@ -31,8 +34,9 @@ export const HomeLoggedOff = ({ logout }) => {
         );
       }
     }
-  }, [])
+    setPopularGameElements(popularGames)
 
+  }, [store.popularGames])
 
   return (
     <div className="banner text-center mb-4 mt-5">
@@ -50,7 +54,7 @@ export const HomeLoggedOff = ({ logout }) => {
             <img src={theWitcher} className="d-block mx-auto" alt="..." style={{ width: '70vw', height: 'auto' }} />
           </div>
           <div className="carousel-item img-fluid">
-            <img src={ eldenring } className="d-block mx-auto" alt="..." style={{ width: '70vw', height: 'auto' }} />
+            <img src={eldenring} className="d-block mx-auto" alt="..." style={{ width: '70vw', height: 'auto' }} />
           </div>
         </div>
         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">

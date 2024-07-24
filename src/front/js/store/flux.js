@@ -4,6 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			message: null,
 			token: sessionStorage.getItem('jwtToken'),
 			popularGames: [],
+			user: sessionStorage.getItem('userInfo'),
 		},
 		actions: {
 			handleLogin: async (login, password) => {
@@ -70,10 +71,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			handleFetchUserInfo: async () => {
+				console.log(getStore().token)
+				console.log(sessionStorage.getItem('jwtToken'))
 				const token = sessionStorage.getItem('jwtToken');
 				if (!token) {
 					return;
 				}
+				console.log(token)
 				const response = await fetch(process.env.BACKEND_URL + 'protected', {
 					method: 'GET',
 					headers: {
